@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="VideoTools.Views.DownloadToolView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VideoTools.Views"      
+             xmlns:viewmodels="clr-namespace:VideoTools.ViewModels"            
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" MouseEnter="UserControl_MouseEnter">
+
+    <Grid x:Name="tgrid" >
+        <TextBox x:Name="site" Margin="25,35,25,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
+        <Button Content="Record"  
+                Command="{Binding StartRecordCommand}" 
+                CommandParameter="{Binding Text, ElementName=site}" 
+                HorizontalAlignment="Left" Margin="25,117,0,0" VerticalAlignment="Top" Width="105"/>
+        <Button Content="Remove" HorizontalAlignment="Left" Margin="25,227,0,0" VerticalAlignment="Top" Width="50"/>
+        <Button Content="Stop all" HorizontalAlignment="Left" Margin="80,177,0,0" VerticalAlignment="Top" Width="50"/>
+        <Button Content="Start all" HorizontalAlignment="Left" Margin="80,202,0,0" VerticalAlignment="Top" Width="50"/>
+        <Button 
+            Content="Download" 
+            Command="{Binding StartDownloadCommand}" 
+            CommandParameter="{Binding Text, ElementName=site}"
+            HorizontalAlignment="Left" Margin="268,117,0,0" VerticalAlignment="Top" Width="104"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="25,177,0,0" VerticalAlignment="Top" Width="50"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="25,202,0,0" VerticalAlignment="Top" Width="50"/>
+        <Button Content="Paste" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="cookies_path_tb" HorizontalAlignment="Left" Margin="80,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="292"/>
+        <Label Content="Cookies" HorizontalAlignment="Left" Margin="23,339,0,0" VerticalAlignment="Top"/>
+    </Grid>
+
+</UserControl>

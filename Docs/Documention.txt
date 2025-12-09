@@ -1,0 +1,18 @@
+﻿How to add web api code to Wpf app
+https://levelup.gitconnected.com/how-to-embed-a-web-server-inside-desktop-applications-643ce3cb51bf
+
+Most importantly, you need to add the framework references to your WPF project file (.csproj):
+<ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+</ItemGroup>
+Then, you can add the web api code to your WPF application
+var webBuilder = WebApplication.CreateBuilder();
+webBuilder.Services.AddLogging(b =>
+{
+    b.AddConsole();
+    b.SetMinimumLevel(LogLevel.Information);
+});
+webBuilder.Services.AddControllers();
+_webApp = webBuilder.Build();
+_webApp.MapControllers();
+            
