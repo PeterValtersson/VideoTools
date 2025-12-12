@@ -15,8 +15,8 @@
                 CommandParameter="{Binding Text, ElementName=site}" 
                 HorizontalAlignment="Left" Margin="25,117,0,0" VerticalAlignment="Top" Width="105"/>
         <Button Content="Remove" HorizontalAlignment="Left" Margin="25,227,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button Content="Stop all" HorizontalAlignment="Left" Margin="80,177,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button Content="Start all" HorizontalAlignment="Left" Margin="80,202,0,0" VerticalAlignment="Top" Width="50"/>
+        <Button Content="Stop all" Command="{Binding StopAllCommand}"  HorizontalAlignment="Left" Margin="80,177,0,0" VerticalAlignment="Top" Width="50"/>
+        <Button Content="Start all" Command="{Binding StartAllCommand}" HorizontalAlignment="Left" Margin="80,202,0,0" VerticalAlignment="Top" Width="50"/>
         <Button 
             Content="Download" 
             Command="{Binding StartDownloadCommand}" 

@@ -73,6 +73,23 @@ namespace VideoTools.ViewModels
                 return;
             await _httpClient.UpdateOptions(Url, TaskOptions);
         }
+
+        [RelayCommand]
+        async Task Remove()
+        {
+            await _httpClient!.Remove(Url);
+        }
+        [RelayCommand]
+        async Task Start()
+        {
+            await _httpClient!.Start(Url);
+        }
+
+        [RelayCommand]
+        async Task Stop()
+        {
+            await _httpClient!.Stop(Url);
+        }
     }
     //public class TabContentData
     //{

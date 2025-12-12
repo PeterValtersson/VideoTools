@@ -80,6 +80,9 @@
                                 <Label Content="{Binding Name}" Margin="0,0,0,0" HorizontalAlignment="Center" ></Label>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center">
                                     <Label Content="{Binding Status}"></Label>
+                                    <Button Content="Remove" Command="{Binding RemoveCommand}" Margin="2" Padding="4,0,4,0"/>
+                                    <Button Content="Start" Command="{Binding StartCommand}" Margin="2" Padding="4,0,4,0"/>
+                                    <Button Content="Stop" Command="{Binding StopCommand}" Margin="2" Padding="4,0,4,0"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Visibility="{Binding Visibility}">
                                     <Label Content="Keep tracked" VerticalAlignment="Center"></Label>

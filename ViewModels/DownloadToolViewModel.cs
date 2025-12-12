@@ -25,11 +25,21 @@ namespace VideoTools.ViewModels
         {
             await httpClient.SendDownload(uri, uri, TaskOptions.AllowCookies | TaskOptions.RemoveOnFinish);
         }
-
         [RelayCommand]
         async Task StartRecord(string uri)
         {
             await httpClient.SendDownload(uri, uri, TaskOptions.AllowCookies | TaskOptions.RetryOnFinish);
+        }
+
+        [RelayCommand]
+        async Task StartAll()
+        {
+            await httpClient.StartAll();
+        }
+        [RelayCommand]
+        async Task StopAll()
+        {
+            await httpClient.StopAll();
         }
     }
 }

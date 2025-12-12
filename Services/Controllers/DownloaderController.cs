@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace VideoTools.Services.Controllers
 {
+    public class RequestData
+    {
+        public string url { get; set; }
+    }
     [ApiController]
     [Route("video-tools/[controller]")]
     public class DownloaderController(ILogger<Test> logger, IProcessServiceRequestQueue _processQueue) : ControllerBase
@@ -16,7 +20,7 @@ namespace VideoTools.Services.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] JSONRequestData request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Download endpoint called. Name: {}, Url: {}",
+            logger.LogInformation("Add endpoint called. Name: {}, Url: {}",
                 request.name, request.url);
 
             var trackerData = new TrackerData(request.name, "yt-dlp.exe", request.url, request.TaskOptions);
@@ -32,6 +36,51 @@ namespace VideoTools.Services.Controllers
                 request.name, request.url);
 
             await _processQueue.SetOptions(request.url, request.TaskOptions, cancellationToken);
+
+            return Ok(new HTTPRequestResponseData() { result = HTTPRequestResponseData.CompletedSuccessfully });
+        }
+        [HttpPost("stop")]
+        public async Task<IActionResult> Stop([FromBody] RequestData request, CancellationToken cancellationToken)
+        {
+            logger.LogInformation("Stop endpoint called. Url: {}", request.url);
+
+            await _processQueue.StopTask(request.url, cancellationToken);
+
+            return Ok(new HTTPRequestResponseData() { result = HTTPRequestResponseData.CompletedSuccessfully });
+        }
+        [HttpGet("stop-all")]
+        public async Task<IActionResult> StopAll(CancellationToken cancellationToken)
+        {
+            logger.LogInformation("Stop endpoint called");
+
+            await _processQueue.StopAll(cancellationToken);
+
+            return Ok(new HTTPRequestResponseData() { result = HTTPRequestResponseData.CompletedSuccessfully });
+        }
+        [HttpPost("start")]
+        public async Task<IActionResult> Start([FromBody] RequestData request, CancellationToken cancellationToken)
+        {
+            logger.LogInformation("Start endpoint called. Url: {}", request.url);
+
+            await _processQueue.StartTask(request.url, cancellationToken);
+
+            return Ok(new HTTPRequestResponseData() { result = HTTPRequestResponseData.CompletedSuccessfully });
+        }
+        [HttpGet("start-all")]
+        public async Task<IActionResult> StartAll(CancellationToken cancellationToken)
+        {
+            logger.LogInformation("Start endpoint called");
+
+            await _processQueue.StartAll(cancellationToken);
+
+            return Ok(new HTTPRequestResponseData() { result = HTTPRequestResponseData.CompletedSuccessfully });
+        }
+        [HttpPost("remove")]
+        public async Task<IActionResult> Remove([FromBody] RequestData request, CancellationToken cancellationToken)
+        {
+            logger.LogInformation("Remove endpoint called. Url: {}", request.url);
+
+            await _processQueue.RemoveTask(request.url, cancellationToken);
 
             return Ok(new HTTPRequestResponseData() { result = HTTPRequestResponseData.CompletedSuccessfully });
         }

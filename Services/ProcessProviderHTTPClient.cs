@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using VideoTools.Services.Controllers;
 
 namespace VideoTools.Services
 {
@@ -27,9 +28,29 @@ namespace VideoTools.Services
         }
         public async Task UpdateOptions(string url, TaskOptions options)
         {
-            var soptions = new JsonSerializerOptions() { WriteIndented = true, IncludeFields = true }; 
+            var soptions = new JsonSerializerOptions() { WriteIndented = true, IncludeFields = true };
             soptions.Converters.Add(new JsonStringEnumConverter());
             await httpClient.PostAsJsonAsync("video-tools/downloader/set-options", new JSONRequestData { url = url, TaskOptions = options }, soptions);
+        }
+        public async Task Stop(string url)
+        {
+            await httpClient.PostAsJsonAsync("video-tools/downloader/stop",  new RequestData { url = url} );
+        }
+        public async Task Start(string url)
+        {
+            await httpClient.PostAsJsonAsync("video-tools/downloader/start", new RequestData { url = url });
+        }
+        public async Task Remove(string url)
+        {
+            await httpClient.PostAsJsonAsync("video-tools/downloader/remove", new RequestData { url = url });
+        }
+        public async Task StopAll()
+        {
+            await httpClient.GetAsync("video-tools/downloader/stop-all");
+        }
+        public async Task StartAll()
+        {
+            await httpClient.GetAsync("video-tools/downloader/start-all");
         }
         private JsonDocument DeserializeRequest(Stream stream)
         {
