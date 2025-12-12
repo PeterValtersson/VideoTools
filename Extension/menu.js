@@ -110,10 +110,13 @@ async function start()
 {
   Array.from(downlist.children).forEach(element => {
     if(document.getElementById(element.dataset.name + "licbid").checked)
-      fetch(url + "start",
+      fetch(url + "/start",
         {
-          method: "POST",
-          body: JSON.stringify({ name: element.dataset.name, url: element.dataset.url })
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+          body: JSON.stringify({ url: element.dataset.url })
         }
       ).then((response) => console.log(response.json.text))
   });
@@ -124,10 +127,13 @@ async function pause()
 {
   Array.from(downlist.children).forEach(element => {
     if(document.getElementById(element.dataset.name + "licbid").checked)
-      fetch(url + "pause",
+      fetch(url + "/stop",
         {
-          method: "POST",
-          body: JSON.stringify({ name: element.dataset.name, url: element.dataset.url })
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+          body: JSON.stringify({ url: element.dataset.url })
         }
       ).then((response) => console.log(response.json.text))
   });
@@ -139,10 +145,13 @@ async function remove()
 {
   Array.from(downlist.children).forEach(element => {
     if(document.getElementById(element.dataset.name + "licbid").checked)
-      fetch(url + "remove",
+      fetch(url + "/remove",
         {
-          method: "POST",
-          body: JSON.stringify({ name: element.dataset.name, url: element.dataset.url })
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+          body: JSON.stringify({ url: element.dataset.url })
         }
       ).then((response) => console.log(response.json.text))
     
