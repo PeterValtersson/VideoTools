@@ -28,7 +28,7 @@ namespace VideoTools.Views
             tgrid.DataContext = DataContext = downloadToolViewModel;
         }
 
-        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        private void tgrid_MouseEnter(object sender, MouseEventArgs e)
         {
 
             if (System.Uri.IsWellFormedUriString(Clipboard.GetText().Trim(), UriKind.Absolute))

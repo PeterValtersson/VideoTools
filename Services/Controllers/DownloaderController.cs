@@ -23,7 +23,7 @@ namespace VideoTools.Services.Controllers
             logger.LogInformation("Add endpoint called. Name: {}, Url: {}",
                 request.name, request.url);
 
-            var trackerData = new TrackerData(request.name, "yt-dlp.exe", request.url, request.TaskOptions);
+            var trackerData = new TrackerData(request.name, "yt-dlp.exe", request.url, request.TaskOptions, request.cookies_url);
             await _processQueue.AddTask(trackerData, cancellationToken);
 
             return Ok(new HTTPRequestResponseData() { result = HTTPRequestResponseData.CompletedSuccessfully });

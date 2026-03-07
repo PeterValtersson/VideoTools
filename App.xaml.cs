@@ -1,6 +1,9 @@
 ﻿using AsyncAwaitBestPractices;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Json;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -9,14 +12,18 @@ using System;
 using System.ComponentModel.Design.Serialization;
 using System.Configuration;
 using System.Data;
+using System.Drawing.Printing;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shell;
 using VideoTools.Services;
+using VideoTools.Settings;
 using VideoTools.ViewModels;
 using VideoTools.Views;
-using Microsoft.AspNetCore.Http.Json;
 
 namespace VideoTools
 {
@@ -33,6 +40,7 @@ namespace VideoTools
         {
 
             var webBuilder = WebApplication.CreateBuilder();
+            
             webBuilder.Services.AddLogging(b =>
             {
                 b.AddConsole();
@@ -76,6 +84,13 @@ namespace VideoTools
             _webApp.MapControllers();
 
             var builder = Host.CreateApplicationBuilder();
+            builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
+            builder.Configuration.AddJsonFile("Settings/appsettings.json", optional: false, reloadOnChange: true);
+
+            builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(nameof(AppSettings)));
+
+            builder.Services.AddSingleton<SettingsService>();
+
             builder.Services.AddLogging(b =>
             {
                 b.AddConsole();
@@ -102,6 +117,8 @@ namespace VideoTools
             builder.Services.AddSingleton<MainWindow>();
             builder.Services.AddSingleton<DownloadToolView>();
             builder.Services.AddSingleton<VideoSplitToolView>();
+
+
             _host = builder.Build();
             if (_host is null)
                 throw new InvalidOperationException("Host build failed.");
@@ -135,6 +152,39 @@ namespace VideoTools
             ////    new TabItem { Header = "Downloader", Content = new DownloadToolView() },
             ////new TabItem { Header = "Splitter", Content = new VideoSplitToolView() }
             ////}
+        }
+        public void SaveSettings()
+        {
+            // Saving is done by using SettingsService, this is just for info.
+            if (_host is null)
+                return;
+
+            var configRoot = _host.Services.GetRequiredService<IConfiguration>();
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Settings/appsettings.json");
+
+            // Get current AppSettings values from the configuration system
+            var appSettings = configRoot
+                .GetSection(nameof(AppSettings))
+                .Get<AppSettings>();
+
+            // Load existing JSON
+            var json = File.ReadAllText(path);
+            var jsonNode = JsonNode.Parse(json);
+
+            if (jsonNode is null)
+                return;
+
+            // Replace AppSettings section
+            jsonNode[nameof(AppSettings)] = JsonSerializer.SerializeToNode(appSettings);
+
+            // Write back to file
+            File.WriteAllText(
+                path,
+                jsonNode.ToJsonString(new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                }));
         }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -172,6 +222,8 @@ namespace VideoTools
             if(icon is not null)
                 icon.Visibility = Visibility.Hidden;
             await _host!.StopAsync();
+            //SaveSettings();
+
             Application.Current.Shutdown(110);
         }
     }

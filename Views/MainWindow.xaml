@@ -37,7 +37,7 @@
         <Style x:Key="BorderHover" TargetType="Border">
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid d:DataContext="{d:DesignInstance viewmodels:MainViewModel}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>

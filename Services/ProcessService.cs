@@ -28,7 +28,7 @@ namespace VideoTools.Services
 
     public class TrackerData
     {
-        public TrackerData(string displayName, string processName, string arguments/*, ListBoxItem listBoxItem*/, TaskOptions options = default)
+        public TrackerData(string displayName, string processName, string arguments/*, ListBoxItem listBoxItem*/, TaskOptions options = default, string? cookies_url = null)
         {
             this.displayName = displayName;
             this.arguments = arguments;
@@ -36,6 +36,7 @@ namespace VideoTools.Services
             statusString = "Initializing";
             //this.listBoxItem = listBoxItem;
             this.options = options;
+            this.cookies_url = cookies_url;
         }
         public Process? process;
         public string arguments;
@@ -44,6 +45,7 @@ namespace VideoTools.Services
         public string displayName;
         //public ListBoxItem listBoxItem;
         public TaskOptions options;
+        public string? cookies_url;
     }
     public class JSONRequestData
     {
@@ -52,6 +54,7 @@ namespace VideoTools.Services
         [JsonPropertyName("taskOptions")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public TaskOptions TaskOptions { get; set;}
+        public string? cookies_url { get; set; }
     }
     public class JSONResponseData
     {

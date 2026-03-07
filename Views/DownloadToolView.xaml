@@ -6,26 +6,25 @@
              xmlns:local="clr-namespace:VideoTools.Views"      
              xmlns:viewmodels="clr-namespace:VideoTools.ViewModels"            
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" MouseEnter="UserControl_MouseEnter">
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid x:Name="tgrid" >
-        <TextBox x:Name="site" Margin="25,35,25,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" />
+    <Grid d:DataContext="{d:DesignInstance viewmodels:DownloadToolViewModel }" x:Name="tgrid" MouseEnter="tgrid_MouseEnter">
+        
+        <TextBox Text="{Binding Url}" x:Name="site" Margin="25,35,25,0" TextWrapping="Wrap" VerticalAlignment="Top" />
         <Button Content="Record"  
                 Command="{Binding StartRecordCommand}" 
-                CommandParameter="{Binding Text, ElementName=site}" 
+                CommandParameter="{Binding Text, ElementName=site}"
                 HorizontalAlignment="Left" Margin="25,117,0,0" VerticalAlignment="Top" Width="105"/>
-        <Button Content="Remove" HorizontalAlignment="Left" Margin="25,227,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button Content="Stop all" Command="{Binding StopAllCommand}"  HorizontalAlignment="Left" Margin="80,177,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button Content="Start all" Command="{Binding StartAllCommand}" HorizontalAlignment="Left" Margin="80,202,0,0" VerticalAlignment="Top" Width="50"/>
+        <Button Content="Stop all" Command="{Binding StopAllCommand}"  HorizontalAlignment="Left" Margin="24,156,0,0" VerticalAlignment="Top" Width="106"/>
+        <Button Content="Start all" Command="{Binding StartAllCommand}" HorizontalAlignment="Left" Margin="25,181,0,0" VerticalAlignment="Top" Width="105"/>
         <Button 
             Content="Download" 
             Command="{Binding StartDownloadCommand}" 
             CommandParameter="{Binding Text, ElementName=site}"
             HorizontalAlignment="Left" Margin="268,117,0,0" VerticalAlignment="Top" Width="104"/>
-        <Button Content="Stop" HorizontalAlignment="Left" Margin="25,177,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="25,202,0,0" VerticalAlignment="Top" Width="50"/>
         <Button Content="Paste" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" />
-        <TextBox x:Name="cookies_path_tb" HorizontalAlignment="Left" Margin="80,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="292"/>
+        <TextBox Text="{Binding CookiesUrl, Mode=TwoWay}" HorizontalAlignment="Left" Margin="80,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="292"/>
         <Label Content="Cookies" HorizontalAlignment="Left" Margin="23,339,0,0" VerticalAlignment="Top"/>
     </Grid>
 
