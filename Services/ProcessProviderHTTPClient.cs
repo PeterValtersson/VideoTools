@@ -22,7 +22,7 @@ namespace VideoTools.Services
             httpClient.BaseAddress = new Uri(uri);
         }
 
-        public async Task SendDownload(string displayName, string arguments, TaskOptions options = TaskOptions.AllowCookies | TaskOptions.RemoveOnFinish)
+        public async Task SendDownload(string displayName, string arguments, TaskOptions options = TaskOptions.RemoveOnFinish)
         {
             await httpClient.PostAsJsonAsync("video-tools/downloader/add", new JSONRequestData { name = displayName, url = arguments, TaskOptions = options });
         }

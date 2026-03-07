@@ -8,6 +8,7 @@ namespace VideoTools.Settings
 {
     public class AppSettings
     {
+        public bool EnableCookies { get; set; }
         public string CookiesFilePath { get; set; } = "";
     }
 }

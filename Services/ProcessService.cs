@@ -22,13 +22,12 @@ namespace VideoTools.Services
     {
         None = 0,
         RemoveOnFinish = 1,
-        RetryOnFinish = 2,
-        AllowCookies = 4,
+        RetryOnFinish = 2
     };
 
     public class TrackerData
     {
-        public TrackerData(string displayName, string processName, string arguments/*, ListBoxItem listBoxItem*/, TaskOptions options = default, string? cookies_url = null)
+        public TrackerData(string displayName, string processName, string arguments/*, ListBoxItem listBoxItem*/, TaskOptions options = default)
         {
             this.displayName = displayName;
             this.arguments = arguments;
@@ -36,7 +35,6 @@ namespace VideoTools.Services
             statusString = "Initializing";
             //this.listBoxItem = listBoxItem;
             this.options = options;
-            this.cookies_url = cookies_url;
         }
         public Process? process;
         public string arguments;
@@ -45,7 +43,6 @@ namespace VideoTools.Services
         public string displayName;
         //public ListBoxItem listBoxItem;
         public TaskOptions options;
-        public string? cookies_url;
     }
     public class JSONRequestData
     {
@@ -54,7 +51,6 @@ namespace VideoTools.Services
         [JsonPropertyName("taskOptions")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public TaskOptions TaskOptions { get; set;}
-        public string? cookies_url { get; set; }
     }
     public class JSONResponseData
     {
@@ -128,7 +124,7 @@ namespace VideoTools.Services
             exeProcess.StartInfo.UseShellExecute = false;
             exeProcess.StartInfo.FileName = track_data.processName;
             exeProcess.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-            exeProcess.StartInfo.Arguments = (track_data.options.HasFlag(TaskOptions.AllowCookies) ? GetCookiesArguments() : "") + track_data.arguments;
+            exeProcess.StartInfo.Arguments = track_data.arguments;
             //exeProcess.StartInfo.RedirectStandardOutput = true;
             //exeProcess.OutputDataReceived += (sender, args) => StringBuilder.AppendLine(args.Data);
             try
@@ -154,16 +150,6 @@ namespace VideoTools.Services
             }
 
             return Task.CompletedTask;
-        }
-
-        private bool cookies_enabled = false;
-        private string cookies_path = "";
-        private string GetCookiesArguments()
-        {
-            if (cookies_enabled)
-                return "--cookies " + cookies_path + " ";
-            else
-                return "";
         }
 
         private Task RemoveTrackedTask(TrackerData track_data)
@@ -215,18 +201,6 @@ namespace VideoTools.Services
             }
 
             return Task.CompletedTask;
-        }
-
-        public void EnableCookies(string file_path)
-        {
-            _logger.LogInformation($"Enabling cookies. File path: {cookies_path}");
-            cookies_enabled = true;
-            cookies_path = file_path;
-        }
-        public void DisableCookies()
-        {
-            _logger.LogInformation($"Disabling cookies.");
-            cookies_enabled = false;
         }
         public void AddTask(TrackerData trackerData)
         {

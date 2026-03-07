@@ -24,8 +24,8 @@
             CommandParameter="{Binding Text, ElementName=site}"
             HorizontalAlignment="Left" Margin="268,117,0,0" VerticalAlignment="Top" Width="104"/>
         <Button Content="Paste" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" />
-        <TextBox Text="{Binding CookiesUrl, Mode=TwoWay}" HorizontalAlignment="Left" Margin="80,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="292"/>
-        <Label Content="Cookies" HorizontalAlignment="Left" Margin="23,339,0,0" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding CookiesUrl, Mode=TwoWay}" HorizontalAlignment="Left" Margin="28,344,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344"/>
+        <CheckBox IsChecked="{Binding EnableCookies}" Content="Use Cookies" HorizontalAlignment="Left" Margin="25,324,0,0" VerticalAlignment="Top"/>
     </Grid>
 
 </UserControl>

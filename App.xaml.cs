@@ -38,9 +38,15 @@ namespace VideoTools
 
         public App()
         {
+            var configuration = new ConfigurationBuilder()
+                                .SetBasePath(Directory.GetCurrentDirectory())
+                                .AddJsonFile("Settings/appsettings.json", optional: false, reloadOnChange: true)
+                                .Build();
 
             var webBuilder = WebApplication.CreateBuilder();
-            
+            webBuilder.Configuration.AddConfiguration(configuration);
+            webBuilder.Services.Configure<AppSettings>(webBuilder.Configuration.GetSection(nameof(AppSettings)));
+
             webBuilder.Services.AddLogging(b =>
             {
                 b.AddConsole();
@@ -84,9 +90,7 @@ namespace VideoTools
             _webApp.MapControllers();
 
             var builder = Host.CreateApplicationBuilder();
-            builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
-            builder.Configuration.AddJsonFile("Settings/appsettings.json", optional: false, reloadOnChange: true);
-
+            builder.Configuration.AddConfiguration(configuration);
             builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(nameof(AppSettings)));
 
             builder.Services.AddSingleton<SettingsService>();

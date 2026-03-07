@@ -34,6 +34,9 @@ namespace VideoTools.ViewModels
             _settinsService.Save(nameof(AppSettings), _options);
         }
 
+ 
+        public bool EnableCookies { get => _options.EnableCookies; set { _options.EnableCookies = value; _settinsService.Save(nameof(AppSettings), _options); } }
+
         [ObservableProperty]
         public string url = "";
 
@@ -42,12 +45,12 @@ namespace VideoTools.ViewModels
         {
             if (uri == "")
                 return;
-            await httpClient.SendDownload(uri, uri, TaskOptions.AllowCookies | TaskOptions.RemoveOnFinish);
+            await httpClient.SendDownload(uri, uri, TaskOptions.RemoveOnFinish);
         }
         [RelayCommand]
         async Task StartRecord(string uri)
         {
-            await httpClient.SendDownload(uri, uri, TaskOptions.AllowCookies | TaskOptions.RetryOnFinish);
+            await httpClient.SendDownload(uri, uri, TaskOptions.RetryOnFinish);
         }
 
         [RelayCommand]

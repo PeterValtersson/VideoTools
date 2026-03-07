@@ -26,9 +26,6 @@ namespace VideoTools.Services
         public Task<Task> StopAll(CancellationToken cancellationToken);
         public Task<Task> StartAll(CancellationToken cancellationToken);
         public Task<Task> StartTask(string url, CancellationToken cancellationToken);
-        public Task<Task> EnableCookies(string file_path, CancellationToken cancellationToken);
-        public Task<Task> DisableCookies(CancellationToken cancellationToken);
-
         public Task<Task<bool>> IsTracked(string url, CancellationToken cancellationToken);
         public Task<Task<List<JSONResponseData>>> GetTrackedList(CancellationToken cancellationToken);
         public bool TryDequeue(out ProcessRequestData item);
@@ -109,18 +106,6 @@ namespace VideoTools.Services
         {
             TaskCompletionSource task = new();
             await Enqueue(() => { _processService.StartTask(url); task.SetResult(); }, cancellationToken);
-            return task.Task;
-        }
-        public async Task<Task> EnableCookies(string file_path, CancellationToken cancellationToken)
-        {
-            TaskCompletionSource task = new();
-            await Enqueue(() => { _processService.EnableCookies(file_path); task.SetResult(); }, cancellationToken);
-            return task.Task;
-        }
-        public async Task<Task> DisableCookies(CancellationToken cancellationToken)
-        {
-            TaskCompletionSource task = new();
-            await Enqueue(() => { _processService.DisableCookies(); task.SetResult(); }, cancellationToken);
             return task.Task;
         }
 
